@@ -1,0 +1,23 @@
+{
+	"name": "@andhisan/necord-bullmq-example",
+	"private": true,
+	"scripts": {
+		"postinstall": "npx lefthook install",
+		"lint": "biome check",
+		"format": "biome format --write",
+		"test": "turbo run test --continue",
+		"typecheck": "turbo run typecheck --continue",
+		"build": "turbo run build --continue",
+		"dev": "turbo run dev"
+	},
+	"engines": {
+		"node": ">= 22",
+		"pnpm": ">= 10"
+	},
+	"packageManager": "pnpm@10.12.4",
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.4",
+		"lefthook": "^1.13.4",
+		"turbo": "^2.5.8"
+	}
+}

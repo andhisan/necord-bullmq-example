@@ -1,0 +1,40 @@
+name: necord-bullmq-example
+
+services:
+  # bot実行時はこのredisを使ってください
+  redis:
+    image: "valkey/valkey:8"
+    restart: always
+    ports:
+      - "${FORWARD_REDIS_PORT:-6379}:6379"
+    networks:
+      - necord-bullmq-example
+    volumes:
+      - "redis:/data"
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      retries: 3
+      timeout: 5s
+  # E2EテストはDockerで行うが、普段は起動しない
+  # make bot-e2e
+  bot-e2e:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.bot.dev
+    command: "npm run test:e2e"
+    networks:
+      - necord-bullmq-example
+    environment:
+      REDIS__URL: redis://redis:6379
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    profiles:
+      - e2e
+networks:
+  necord-bullmq-example:
+    driver: bridge
+volumes:
+  redis:

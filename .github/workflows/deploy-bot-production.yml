@@ -1,0 +1,22 @@
+name: "productionへのpush: デプロイ [bot]"
+
+concurrency:
+  group: bot-production
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - production
+    paths:
+      - .github/workflows/deploy-bot-production.yml
+      - apps/bot/**
+
+jobs:
+  deploy:
+    name: botのデプロイ
+    uses: ./.github/workflows/reusable-deploy-bot.yml
+    with:
+      environment: "production"
+    secrets:
+      fly_api_token: ${{ secrets.FLY_API_TOKEN }}

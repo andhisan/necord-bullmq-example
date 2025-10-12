@@ -1,0 +1,30 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"globalDependencies": [".env"],
+	"globalEnv": ["NODE_ENV"],
+	"tasks": {
+		"transit": {
+			"dependsOn": ["^transit"]
+		},
+		"build": {
+			"env": ["CLOUDFLARE_ENV"],
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*", ".dev.vars"],
+			"outputs": ["build/**", "dist/**"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"env": []
+		},
+		"test": {
+			"dependsOn": ["transit"],
+			"env": []
+		},
+		"typecheck": {
+			"dependsOn": ["transit"],
+			"env": []
+		}
+	}
+}

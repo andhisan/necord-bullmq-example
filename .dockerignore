@@ -1,0 +1,6 @@
+.dockerignore
+.git
+Dockerfile*
+**/fly*.toml
+**/bot*.toml
+**/node_modules

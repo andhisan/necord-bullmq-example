@@ -1,0 +1,19 @@
+pre-commit:
+  commands:
+    # biomeのcheckが通過しないならコミットさせない
+    check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: |
+        set -e
+        npm run lint
+    # biome.json以外を一緒にコミットさせない
+    biome-json-guard:
+      glob: "biome.json"
+      run: |
+        files=$(git diff --cached --name-only)
+        other_files=$(echo "$files" | grep -v "^biome\.json$")
+
+        if [ -n "$other_files" ]; then
+          echo "❌ biome.json must not be committed with other files."
+          exit 1
+        fi

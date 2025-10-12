@@ -1,0 +1,41 @@
+name: "共通: デプロイ [bot]"
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+    secrets:
+      fly_api_token:
+        required: true
+
+jobs:
+  deploy:
+    name: "botのデプロイ"
+    runs-on: ubuntu-latest
+
+    environment:
+      name: bot-${{ inputs.environment }}
+      url: https://necordbullmqbot-${{ inputs.environment }}.fly.io
+
+    env:
+      APP_NAME: necordbullmqbot-${{ inputs.environment }}
+      FLY_API_TOKEN: ${{ secrets.fly_api_token }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      # pre-deployコマンド
+      - run: >
+          flyctl ssh console -a ${{ env.APP_NAME }}
+          -C "node dist/cli notification:deploy --pre"
+      # ha=falseでマシンの複製を防止する
+      - run: >
+          flyctl deploy --remote-only
+          -c apps/bot/fly.${{ inputs.environment }}.toml --ha=false
+          --env COMMIT_SHA=${{ github.sha }}
+      # deployコマンド
+      - run: >
+          flyctl ssh console -a ${{ env.APP_NAME }}
+          -C "node dist/cli notification:deploy"
