@@ -7,7 +7,6 @@
 			"dependsOn": ["^transit"]
 		},
 		"build": {
-			"env": ["CLOUDFLARE_ENV"],
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*", ".dev.vars"],
 			"outputs": ["build/**", "dist/**"]
