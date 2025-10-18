@@ -5,6 +5,12 @@
 > [!WARNING]
 > リポジトリ所有者は、このサンプルを使用したことによる如何なる損害の責任も負いかねます
 
+## 解説記事
+
+解説記事とREADMEの内容が矛盾する場合、READMEを優先してください。
+
+https://zenn.dev/andhisan/articles/02d50c7e2340d7
+
 ## 環境
 
 - Node.js 22
