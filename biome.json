@@ -13,16 +13,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": [
-			"**",
-			"!**/node_modules",
-			"!**/.next",
-			"!**/.turbo",
-			"!coverage",
-			"!dist",
-			"!**/drizzle",
-			"!**/cloudflare-env.d.ts"
-		],
+		"includes": ["**", "!**/node_modules", "!**/.turbo", "!coverage", "!dist"],
 		"ignoreUnknown": true
 	},
 	"formatter": {
